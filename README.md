@@ -2,7 +2,7 @@
 
 The main file, `margins.R`, shows how to compute Stata-like margins in
 R by hand in the context of logistic regression. It's mostly just to
-show the intuition underlying Stata's `-margins-` commands, but you
+show the intuition underlying Stata's `-margins-` command, but you
 can use the results to make nice margins figures with ggplot. Output
 from R can be checked in Stata with `margins_check.do` and
 `fake_data.csv` can be recreated with `make_fake_data.R`.
