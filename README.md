@@ -1,5 +1,5 @@
-README
-======
+Notes
+=====
 
 The main file, `margins.R`, shows how to compute Stata-like margins in R
 by hand in the context of logistic regression. It’s mostly just to show
@@ -51,7 +51,7 @@ Steps
     ## 
     ## Number of Fisher Scoring iterations: 7
 
-### Margins for unit change in binary variable (x3)
+### Margins for unit change in binary variable (`x3`)
 
     ## (1) get model matrix from glm() object
     mm <- model.matrix(mod)
