@@ -59,7 +59,7 @@ pp
 pp$fit[2] - pp$fit[1]
 ```
 
-### VERSION 2: x4 == 1, others `-atmeans-`
+### VERSION 2: `x4 == 1`, others `-atmeans-`
 **NB: this should be equivalent to Stata `margins x3, at(x4 = 1) atmeans`**
 
 ```{r}
@@ -76,7 +76,7 @@ pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
 pp
 ```
 
-### Margins for unit change in continuous variable (x1)
+### Margins for unit change in continuous variable (`x1`)
 **NB: this should be equivalent to Stata `margins, at(x1 = (-4(1)4)) atmeans`**
 
 ```{r}
@@ -93,5 +93,5 @@ new_df
 
 ## (5) use predict() with new data, setting type to get probs
 pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
-format(pp, scientific = FALSE)
+pp
 ```

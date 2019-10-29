@@ -117,7 +117,7 @@ Steps
     ##          2 
     ## -0.7449792
 
-### VERSION 2: x4 == 1, others `-atmeans-`
+### VERSION 2: `x4 == 1`, others `-atmeans-`
 
 **NB: this should be equivalent to Stata
 `margins x3, at(x4 = 1) atmeans`**
@@ -149,7 +149,7 @@ Steps
     ## $residual.scale
     ## [1] 1
 
-### Margins for unit change in continuous variable (x1)
+### Margins for unit change in continuous variable (`x1`)
 
 **NB: this should be equivalent to Stata
 `margins, at(x1 = (-4(1)4)) atmeans`**
@@ -181,11 +181,19 @@ Steps
 
     ## (5) use predict() with new data, setting type to get probs
     pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
-    format(pp, scientific = FALSE)
+    pp
 
-    ##                                                                                                                                     fit 
-    ## "0.00009538101, 0.00056502909, 0.00333946153, 0.01947162787, 0.10530088451, 0.41091159749, 0.80522384579, 0.96078671433, 0.99316068121" 
-    ##                                                                                                                                  se.fit 
-    ## "0.00007674447, 0.00035996780, 0.00157288402, 0.00599287137, 0.01683049635, 0.03710458235, 0.04245440384, 0.01603947280, 0.00400360298" 
-    ##                                                                                                                          residual.scale 
-    ##                                                                                                                                     "1"
+    ## $fit
+    ##            1            2            3            4            5 
+    ## 9.538101e-05 5.650291e-04 3.339462e-03 1.947163e-02 1.053009e-01 
+    ##            6            7            8            9 
+    ## 4.109116e-01 8.052238e-01 9.607867e-01 9.931607e-01 
+    ## 
+    ## $se.fit
+    ##            1            2            3            4            5 
+    ## 7.674447e-05 3.599678e-04 1.572884e-03 5.992871e-03 1.683050e-02 
+    ##            6            7            8            9 
+    ## 3.710458e-02 4.245440e-02 1.603947e-02 4.003603e-03 
+    ## 
+    ## $residual.scale
+    ## [1] 1
