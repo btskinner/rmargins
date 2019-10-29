@@ -7,6 +7,6 @@ can use the results to make nice margins figures with ggplot. Output
 from R can be checked in Stata with `margins_check.do` and
 `fake_data.csv` can be recreated with `make_fake_data.R`.
 
-For a fuller suite of ready-to-go commands, there's the
+For a more complete suite of ready-to-go commands, there's the
 [`margins`](https://cran.r-project.org/web/packages/margins/vignettes/Introduction.html)
 R package.
