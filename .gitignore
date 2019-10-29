@@ -1,0 +1,4 @@
+# .gitignore
+
+.Rhistory
+.DS_Store
