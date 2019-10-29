@@ -1,0 +1,97 @@
+# README
+
+The main file, `margins.R`, shows how to compute Stata-like margins in
+R by hand in the context of logistic regression. It's mostly just to
+show the intuition underlying Stata's `-margins-` command, but you
+can use the results to make nice margins figures with ggplot. Output
+from R can be checked in Stata with `margins_check.do` and
+`fake_data.csv` can be recreated with `make_fake_data.R`.
+
+For a more complete suite of ready-to-go commands, there's the
+[`margins`](https://cran.r-project.org/web/packages/margins/vignettes/Introduction.html)
+R package.
+
+## Steps
+
+### Run logistic regression
+
+```{r}
+## read in fake data
+df <- read.csv('./fake_data.csv')
+
+## run logit
+mod <- glm(y ~ x1 + x2 + x3 + x4, data = df, family = binomial(link = 'logit'))
+summary(mod)
+```
+
+### Margins for unit change in binary variable (x3)
+
+```{r}
+## (1) get model matrix from glm() object
+mm <- model.matrix(mod)
+head(mm)
+
+## (2) drop intercept column of ones b/c we don't need it
+mm <- mm[,-1]
+head(mm)
+
+## (3) convert to data.frame to make life easier
+df_mm <- as.data.frame(mm)
+```
+
+### VERSION 1: all other variables `-atmeans-`
+**NB: this should be equivalent to Stata `margins x3, atmeans`**
+
+```{r}
+## (4) make "new data" where # rows == # margins for key var, averages elsewhere
+new_df <- data.frame(x1 = mean(df_mm$x1),
+                     x2 = mean(df_mm$x2),
+                     x3 = c(0,1),       # two margins, 0/1, for x3
+                     x4 = mean(df_mm$x4))
+
+new_df
+
+## (5) use predict() with new data, setting type to get probs
+pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
+pp
+
+## check difference (Stata: -margins, dydx(x3) atmeans-)
+pp$fit[2] - pp$fit[1]
+```
+
+### VERSION 2: x4 == 1, others `-atmeans-`
+**NB: this should be equivalent to Stata `margins x3, at(x4 = 1) atmeans`**
+
+```{r}
+## (4) make "new data" where # rows == # margins for key var, averages elsewhere
+new_df <- data.frame(x1 = mean(df_mm$x1),
+                     x2 = mean(df_mm$x2),
+                     x3 = c(0,1),       # two margins, 0/1, for x3
+                     x4 = 1)            # x4 == 1
+
+new_df
+
+## (5) use predict() with new data, setting type to get probs
+pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
+pp
+```
+
+### Margins for unit change in continuous variable (x1)
+**NB: this should be equivalent to Stata `margins, at(x1 = (-4(1)4)) atmeans`**
+
+```{r}
+## get idea of range
+summary(df$x1)
+
+## (4) make "new data" where # rows == # margins for key var, averages elsewhere
+new_df <- data.frame(x1 = seq(from = -4, to = 4, by = 1),
+                     x2 = mean(df_mm$x2),
+                     x3 = mean(df_mm$x3),
+                     x4 = mean(df_mm$x4))
+
+new_df
+
+## (5) use predict() with new data, setting type to get probs
+pp <- predict(mod, newdata = new_df, se.fit = TRUE, type = 'response')
+format(pp, scientific = FALSE)
+```
